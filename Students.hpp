@@ -10,6 +10,7 @@
 #define Students_hpp
 
 #include "Times.hpp"
+#include "string.h"
 
 
 class Student

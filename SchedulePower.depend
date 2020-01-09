@@ -1,0 +1,98 @@
+# depslib dependency file v1.0
+1578437749 source:c:\users\jenia\schedulepower\resource.rc
+	<windows.h>
+	"resource.h"
+
+1578428573 c:\users\jenia\schedulepower\resource.h
+
+1578543169 source:c:\users\jenia\schedulepower\main.cpp
+	<iostream>
+	<windows.h>
+	"resource.h"
+	<commctrl.h>
+	<string.h>
+	"DataSchedule.hpp"
+
+1578441948 source:c:\users\jenia\schedulepower\lessons.cpp
+	"Lessons.hpp"
+	<iostream>
+
+1578441948 c:\users\jenia\schedulepower\lessons.hpp
+	<stdio.h>
+
+1578442197 source:c:\users\jenia\schedulepower\datainput.cpp
+	<iostream>
+	<windows.h>
+
+1578444623 source:c:\users\jenia\schedulepower\studentsf.cpp
+	"studentsf.hpp"
+	<iostream>
+	<windows.h>
+	<cstring>
+
+1578443971 c:\users\jenia\schedulepower\studentsf.hpp
+	<stdio.h>
+	<windows.h>
+	"Lessons.hpp"
+
+1578442782 source:c:\users\jenia\schedulepower\handledata.cpp
+	<iostream>
+	"studentsf.hpp"
+	<cstring>
+
+1578445889 source:c:\users\jenia\schedulepower\dataobj.cpp
+
+1578542653 source:c:\users\jenia\schedulepower\dataschedule.cpp
+	"DataSchedule.hpp"
+
+1578542653 c:\users\jenia\schedulepower\dataschedule.hpp
+	"Students.hpp"
+
+1578543354 c:\users\jenia\schedulepower\students.hpp
+	"Times.hpp"
+	"string.h"
+
+1578542653 c:\users\jenia\schedulepower\times.hpp
+	<stdio.h>
+	<iostream>
+
+1578542653 source:c:\users\jenia\schedulepower\times.cpp
+	"Times.hpp"
+
+1578542653 source:c:\users\jenia\schedulepower\students.cpp
+	"Students.hpp"
+
+1578542653 source:c:\users\jenia\newschedulepower\schedulepower\dataschedule.cpp
+	"DataSchedule.hpp"
+
+1578542653 c:\users\jenia\newschedulepower\schedulepower\dataschedule.hpp
+	"Students.hpp"
+
+1578543354 c:\users\jenia\newschedulepower\schedulepower\students.hpp
+	"Times.hpp"
+	"string.h"
+
+1578542653 c:\users\jenia\newschedulepower\schedulepower\times.hpp
+	<stdio.h>
+	<iostream>
+
+1578543748 source:c:\users\jenia\newschedulepower\schedulepower\main.cpp
+	<iostream>
+	<windows.h>
+	"resource.h"
+	<commctrl.h>
+	<string.h>
+	"DataSchedule.hpp"
+
+1578428573 c:\users\jenia\newschedulepower\schedulepower\resource.h
+
+1578437749 source:c:\users\jenia\newschedulepower\schedulepower\resource.rc
+	<windows.h>
+	"resource.h"
+
+1578542653 source:c:\users\jenia\newschedulepower\schedulepower\students.cpp
+	"Students.hpp"
+
+1578542653 source:c:\users\jenia\newschedulepower\schedulepower\times.cpp
+	"Times.hpp"
+
