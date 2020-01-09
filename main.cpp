@@ -210,6 +210,8 @@ VOID InitDialogWithStrings(HWND hDlg)
      }
 }
 
+UINT indexHourF,indexHourT,indexDay,indexMinF,indexMinT;
+
 BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
          switch(Message)
@@ -224,12 +226,43 @@ BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
                 }
                break;
                case WM_COMMAND:
+                   if (HIWORD(wParam) == CBN_SELCHANGE)
+                   {
+                     switch(LOWORD(wParam))
+                     {
+                     case ID_CB_DAY:
+                       indexDay = SendMessage((HWND) lParam, (UINT) CB_GETCURSEL,
+                        (WPARAM) 0, (LPARAM) 0);
+                        printf("Day %d\n",indexDay);
+                        break;
+                     case ID_CB_HOURF:
+                       indexHourF = SendMessage((HWND) lParam, (UINT) CB_GETCURSEL,
+                        (WPARAM) 0, (LPARAM) 0);
+                         printf("HourF %d\n",indexHourF);
+                        break;
+                     case ID_CB_HOURT:
+                         indexHourT = SendMessage((HWND) lParam, (UINT) CB_GETCURSEL,
+                         (WPARAM) 0, (LPARAM) 0);
+                        printf("HourT %d\n",indexHourT);
+                        break;
+                     case ID_CB_MINF:
+                         indexMinF = SendMessage((HWND) lParam, (UINT) CB_GETCURSEL,
+                       (WPARAM) 0, (LPARAM) 0);
+                        printf("MinF %d\n",indexMinF);
+                        break;
+                     case ID_CB_MINT:
+                         indexMinT = SendMessage((HWND) lParam, (UINT) CB_GETCURSEL,
+                       (WPARAM) 0, (LPARAM) 0);
+                        printf("MinT %d\n",indexMinT);
+                        break;
+                     }
+                   }
                     switch(LOWORD(wParam))
                        {
                          case ID_BT_SAVE:
                              {
-                                 char* name = PullTextFromTextField(hwnd,ID_EDIT_NAME);
-                                 AddItemToListBox(g_hMainWnd,ID_MAIN_LISTBOX,name,0);
+                               //  char* name = PullTextFromTextField(hwnd,ID_EDIT_NAME);
+                               //  AddItemToListBox(g_hMainWnd,ID_MAIN_LISTBOX,name,0);
                                  EndDialog(hwnd,0);
                              }
                             break;
