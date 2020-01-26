@@ -38,23 +38,9 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,i
 {
 
  CreateMainWindow(hInstance);
- generateButton();
  WhileLoop();
 
  return 0;
-}
-
-void generateButton()
-{
-    Schedule schedule;
-    Times lessons;
-    Students students;
-    lessons.appendTimesFromTo(1,9,0,10,30,45);
-    students.CreateNewStudent("Jenia",1,lessons);
-    students.CreateNewStudent("Roman",1,lessons);
-    schedule.setStudents(students);
-    schedule.generateScheduleSecondOption();
-    schedule.displaySchedule();
 }
 
 
@@ -279,6 +265,7 @@ BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
               }
         return TRUE;
 }
+
  /* PAINTSTRUCT ps;
                  HDC hdc;
                  RECT rc;
