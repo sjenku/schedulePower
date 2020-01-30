@@ -31,8 +31,6 @@ HINSTANCE g_inst;
 char* days[] = {
     "ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"
 };
-char* hours[] = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18",
-"19","20","21","22","23"};
 /*-------------------------------Main Function---------------------------------*/
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow)
 {
@@ -172,11 +170,20 @@ BOOL CALLBACK StuDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
         return TRUE;
 }
 
+//TODO:convert two follow functions to one...
 VOID InitDialogWithHours(HWND hDlg,int idCB)
 {
+    std::stringstream sstr;
+    std::string tmp_string;
+    char* minute;
     for(int i = 0;i<24;i++)
     {
-        SendDlgItemMessage(hDlg,idCB,CB_ADDSTRING,0,(LPARAM)hours[i]);
+        sstr << i;
+        tmp_string = sstr.str();
+        minute = (char*)tmp_string.c_str();
+        SendDlgItemMessage(hDlg,idCB,CB_ADDSTRING,0,(LPARAM)minute);
+        sstr.str("");
+        sstr.clear();
     }
 }
 
