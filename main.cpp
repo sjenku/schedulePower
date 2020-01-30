@@ -2,7 +2,8 @@
 #include <windows.h>
 #include "resource.h"
 #include <commctrl.h>
-#include <string.h>
+#include <sstream>
+#include <string>
 #include "DataSchedule.hpp"
 
 
@@ -32,7 +33,6 @@ char* days[] = {
 };
 char* hours[] = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18",
 "19","20","21","22","23"};
-char* minutes[] = {"00","15","30","45"};
 /*-------------------------------Main Function---------------------------------*/
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow)
 {
@@ -182,9 +182,17 @@ VOID InitDialogWithHours(HWND hDlg,int idCB)
 
 VOID InitDialogWithMinutes(HWND hDlg,int idCB)
 {
-    for(int i = 0;i<4;i++)
+    std::stringstream sstr;
+    std::string tmp_string;
+    char *minute;
+    for(int i = 0;i<60;i++)
     {
-        SendDlgItemMessage(hDlg,idCB,CB_ADDSTRING,0,(LPARAM)minutes[i]);
+        sstr << i;
+        tmp_string = sstr.str();
+        minute = (char*)tmp_string.c_str();
+        SendDlgItemMessage(hDlg,idCB,CB_ADDSTRING,0,(LPARAM)minute);
+        sstr.str("");
+        sstr.clear();
     }
 }
 
