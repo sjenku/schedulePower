@@ -76,18 +76,19 @@
 	<stdio.h>
 	<iostream>
 
-1580372854 source:c:\users\jenia\newschedulepower\schedulepower\main.cpp
+1580382668 source:c:\users\jenia\newschedulepower\schedulepower\main.cpp
 	<iostream>
 	<windows.h>
 	"resource.h"
 	<commctrl.h>
 	<sstream>
 	<string>
+	<time.h>
 	"DataSchedule.hpp"
 
 1580372797 c:\users\jenia\newschedulepower\schedulepower\resource.h
 
-1578437749 source:c:\users\jenia\newschedulepower\schedulepower\resource.rc
+1580382776 source:c:\users\jenia\newschedulepower\schedulepower\resource.rc
 	<windows.h>
 	"resource.h"
 

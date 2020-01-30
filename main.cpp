@@ -4,6 +4,7 @@
 #include <commctrl.h>
 #include <sstream>
 #include <string>
+#include <time.h>
 #include "DataSchedule.hpp"
 
 
@@ -22,6 +23,8 @@ BOOL CALLBACK StuDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 VOID AddItemToListBox(HWND hwnd,int IDListBox,char* str,UINT index);
 char* PullTextFromTextField(HWND hwnd,UINT idControl);
+void timeToString(char * str,UINT day,UINT hour,UINT minute);
+char* intToCharP(int num);
 void generateButton();
 
 /*-------------------------------Global Var---------------------------------*/
@@ -29,8 +32,9 @@ HWND g_hMainWnd = NULL,g_hAddBt = NULL,g_hRemoveBt = NULL,g_hGenerateBt = NULL,g
 LPCWSTR g_mainClassName = L"MyMainWindowClass";
 HINSTANCE g_inst;
 char* days[] = {
-    "ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"
+    "sunday","monday","tuesday","wednesday","thursday","friday","saturday"
 };
+enum Days {sunday,monday,tuesday,wednesday,thursday,friday,saturday};
 Students students;
 UINT indexHourF,indexHourT,indexDay,indexMinF,indexMinT;
 /*-------------------------------Main Function---------------------------------*/
@@ -129,7 +133,7 @@ VOID CreateMainControllers(HWND hMainWnd)
 
 VOID AddItemToListBox(HWND hwnd,int IDListBox,char* str,UINT index)
 {
-    int i = SendDlgItemMessage(g_hMainWnd,IDListBox,LB_ADDSTRING,index,(LPARAM)str);
+    int i = SendDlgItemMessage(hwnd,IDListBox,LB_ADDSTRING,index,(LPARAM)str);
 }
 
 
@@ -147,6 +151,7 @@ BOOL CALLBACK StuDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
          switch(Message)
               {
                case WM_INITDIALOG:
+                   g_StuDlg = hwnd;
                    students.CreateNewStudent();
                   return TRUE;
                case WM_COMMAND:
@@ -184,6 +189,15 @@ BOOL CALLBACK StuDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
                return FALSE;
               }
         return TRUE;
+}
+
+char* intToCharP(int num)
+{
+     std::stringstream sstr;
+     std::string tmp_string;
+     sstr << num;
+     tmp_string = sstr.str();
+     return (char*)tmp_string.c_str();
 }
 
 //TODO:convert two follow functions to one...
@@ -249,6 +263,7 @@ BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
                      case ID_CB_DAY:
                        indexDay = SendMessage((HWND) lParam, (UINT) CB_GETCURSEL,
                         (WPARAM) 0, (LPARAM) 0);
+                        indexDay += 1;
                         printf("Day %d\n",indexDay);
                         break;
                      case ID_CB_HOURF:
@@ -277,8 +292,15 @@ BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
                        {
                          case ID_BT_SAVE:
                              {
-                               //  char* name = PullTextFromTextField(hwnd,ID_EDIT_NAME);
-                               //  AddItemToListBox(g_hMainWnd,ID_MAIN_LISTBOX,name,0);
+                            char timeInfoFrom[20];
+                            char timeInfoTo[20];
+                            char lessonInfo[40];
+                            timeToString(timeInfoFrom,indexDay,indexHourF,indexMinF);
+                            timeToString(timeInfoTo,indexDay,indexHourT,indexMinT);
+                            strcpy(lessonInfo,timeInfoFrom);
+                            strcat(lessonInfo,"->");
+                            strcat(lessonInfo,timeInfoTo);
+                                AddItemToListBox(g_StuDlg,ID_LIST_TIMES,lessonInfo,0);
                                  EndDialog(hwnd,ID_BT_SAVE);
                              }
                             break;
@@ -296,6 +318,18 @@ BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
         return TRUE;
 }
 
+
+void timeToString(char * str,UINT day,UINT hour,UINT minute)
+{
+
+   strcpy(str,days[day]);
+   strcat(str," ");
+    if (hour < 10) strcat(str,"0");
+    strcat(str,intToCharP(hour));
+    strcat(str,":");
+    if (minute < 10) strcat(str,"0");
+    strcat(str,intToCharP(minute));
+}
  /* PAINTSTRUCT ps;
                  HDC hdc;
                  RECT rc;
