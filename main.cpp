@@ -203,33 +203,21 @@ char* intToCharP(int num)
 //TODO:convert two follow functions to one...
 VOID InitDialogWithHours(HWND hDlg,int idCB)
 {
-    std::stringstream sstr;
-    std::string tmp_string;
-    char* minute;
+    char minute[3];
     for(int i = 0;i<24;i++)
     {
-        sstr << i;
-        tmp_string = sstr.str();
-        minute = (char*)tmp_string.c_str();
+        strcpy(minute,intToCharP(i));
         SendDlgItemMessage(hDlg,idCB,CB_ADDSTRING,0,(LPARAM)minute);
-        sstr.str("");
-        sstr.clear();
     }
 }
 
 VOID InitDialogWithMinutes(HWND hDlg,int idCB)
 {
-    std::stringstream sstr;
-    std::string tmp_string;
-    char *minute;
+    char minute[3];
     for(int i = 0;i<60;i++)
     {
-        sstr << i;
-        tmp_string = sstr.str();
-        minute = (char*)tmp_string.c_str();
+        strcpy(minute,intToCharP(i));
         SendDlgItemMessage(hDlg,idCB,CB_ADDSTRING,0,(LPARAM)minute);
-        sstr.str("");
-        sstr.clear();
     }
 }
 
