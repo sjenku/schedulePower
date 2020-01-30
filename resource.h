@@ -7,6 +7,7 @@
 #define IDD_TIME_DLG                            2001
 #define IDC_MAIN_EDIT                           101
 #define ID_MAIN_LISTBOX                         102
+#define ID_BT_GENERATE                          1006
 #define ID_BT_ADD                               1001
 #define ID_BT                                   1002
 #define ID_BT_SAVE                              1003

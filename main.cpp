@@ -31,6 +31,8 @@ HINSTANCE g_inst;
 char* days[] = {
     "ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"
 };
+Students students;
+UINT indexHourF,indexHourT,indexDay,indexMinF,indexMinT;
 /*-------------------------------Main Function---------------------------------*/
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int nCmdShow)
 {
@@ -57,6 +59,9 @@ LRESULT CALLBACK WinProc(HWND hwnd,UINT msg,WPARAM wp,LPARAM lp)
                                 else if (ret == IDCANCEL) MessageBeep(MB_OK);
                             }
                          break;
+                    case ID_BT_GENERATE:
+                        students.printStudents();
+                        break;
                 }
              break;
         case WM_CREATE:
@@ -116,7 +121,7 @@ VOID CreateMainControllers(HWND hMainWnd)
 {
     g_hAddBt = CreateWindowW(L"button",L"ADD",WS_CHILD | WS_VISIBLE,16,16,64,32,hMainWnd,HMENU(ID_BT_ADD),g_inst,NULL);
     g_hRemoveBt = CreateWindowW(L"button",L"REMOVE",WS_CHILD | WS_VISIBLE,16,50,64,32,hMainWnd,HMENU(ID_BT),g_inst,NULL);
-    g_hGenerateBt = CreateWindowW(L"button",L"GENERATE",WS_CHILD | WS_VISIBLE,56,164,128,32,hMainWnd,HMENU(ID_BT),g_inst,NULL);
+    g_hGenerateBt = CreateWindowW(L"button",L"GENERATE",WS_CHILD | WS_VISIBLE,56,164,128,32,hMainWnd,HMENU(ID_BT_GENERATE),g_inst,NULL);
     g_hListBox =    CreateWindowW(L"LISTBOX",L"...",WS_BORDER | WS_VISIBLE | WS_CHILD,96,16,120,132,hMainWnd,
                    HMENU(ID_MAIN_LISTBOX),g_inst,NULL);
 }
@@ -142,6 +147,7 @@ BOOL CALLBACK StuDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
          switch(Message)
               {
                case WM_INITDIALOG:
+                   students.CreateNewStudent();
                   return TRUE;
                case WM_COMMAND:
                     switch(LOWORD(wParam))
@@ -149,6 +155,8 @@ BOOL CALLBACK StuDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
                          case ID_BT_SAVE:
                              {
                                  char* name = PullTextFromTextField(hwnd,ID_EDIT_NAME);
+                                 Student *student = students.studentAtIndex(students.count() - 1);
+                                 (*student).setName(name);
                                  AddItemToListBox(g_hMainWnd,ID_MAIN_LISTBOX,name,0);
                                  EndDialog(hwnd,0);
                              }
@@ -161,6 +169,14 @@ BOOL CALLBACK StuDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
                          break;
                          case ID_ADD_LESSON:
                              int ret = DialogBox(GetModuleHandle(NULL),MAKEINTRESOURCE(IDD_TIME_DLG),hwnd,TimeDlgProc);
+                             switch (ret)
+                             {
+                               case ID_BT_SAVE:
+                                   Times stuLessons;
+                                stuLessons.appendTimesFromTo(indexDay,indexHourF,indexMinF,indexHourT,indexMinT,45);
+                                Student* student = students.studentAtIndex(students.count() - 1);
+                                (*student).setTimesToPossibilities(stuLessons);
+                             }
                          break;
                        }
                break;
@@ -211,7 +227,6 @@ VOID InitDialogWithStrings(HWND hDlg)
      }
 }
 
-UINT indexHourF,indexHourT,indexDay,indexMinF,indexMinT;
 
 BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
 {
@@ -264,7 +279,7 @@ BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
                              {
                                //  char* name = PullTextFromTextField(hwnd,ID_EDIT_NAME);
                                //  AddItemToListBox(g_hMainWnd,ID_MAIN_LISTBOX,name,0);
-                                 EndDialog(hwnd,0);
+                                 EndDialog(hwnd,ID_BT_SAVE);
                              }
                             break;
                          case IDOK:
