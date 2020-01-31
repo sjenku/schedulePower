@@ -160,10 +160,19 @@ BOOL CALLBACK StuDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
                          case ID_BT_SAVE:
                              {
                                  char* name = PullTextFromTextField(hwnd,ID_EDIT_NAME);
-                                 Student *student = students.studentAtIndex(students.count() - 1);
+                                 char* noLessonsField = PullTextFromTextField(hwnd,ID_EDIT_LESSONS);
+                                 if (strcmp(name,"") == 0 ) MessageBox(hwnd,"Missing Name Of The Student","Notice!",MB_OK | MB_ICONWARNING);
+                                 else if (strcmp(noLessonsField,"") == 0)
+                                 {
+                                    MessageBox(hwnd,"Missing Number Of Lessons Wanted","Notice!",MB_OK | MB_ICONWARNING);
+                                 }
+                                 else
+                                 {
+                                  Student *student = students.studentAtIndex(students.count() - 1);
                                  (*student).setName(name);
                                  AddItemToListBox(g_hMainWnd,ID_MAIN_LISTBOX,name,0);
                                  EndDialog(hwnd,0);
+                                 }
                              }
                             break;
                          case IDOK:
