@@ -251,7 +251,6 @@ BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
                      case ID_CB_DAY:
                        indexDay = SendMessage((HWND) lParam, (UINT) CB_GETCURSEL,
                         (WPARAM) 0, (LPARAM) 0);
-                        indexDay += 1;
                         printf("Day %d\n",indexDay);
                         break;
                      case ID_CB_HOURF:
