@@ -14,11 +14,13 @@
 
 /*-------------------------------Declaretions---------------------------------*/
 VOID CreateMainWindow(HINSTANCE);
+VOID CreateScheduleWindow(HWND hWnd);
 VOID WhileLoop(VOID);
 VOID CreateMainControllers(HWND hMainWnd);
 VOID InitDialogWithStrings(HWND hDlg);
 VOID InitDialogWithHours(HWND hDlg,int idCB);
 VOID InitDialogWithMinutes(HWND hDlg,int idCB);
+LRESULT CALLBACK ScheduleProc(HWND hwnd,UINT msg,WPARAM wp,LPARAM lp);
 BOOL CALLBACK StuDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK TimeDlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 VOID AddItemToListBox(HWND hwnd,int IDListBox,char* str,UINT index);
@@ -31,8 +33,9 @@ struct userPickedTimes
     UINT indexHourF,indexHourT,indexDay,indexMinF,indexMinT;
 };
 /*-------------------------------Global Var---------------------------------*/
-HWND g_hMainWnd = NULL,g_hAddBt = NULL,g_hRemoveBt = NULL,g_hGenerateBt = NULL,g_hListBox,g_StuDlg,g_TimeDlg;
+HWND g_hMainWnd = NULL,g_hAddBt = NULL,g_hRemoveBt = NULL,g_hGenerateBt = NULL,g_hScheduleWnd = NULL,g_hListBox,g_StuDlg,g_TimeDlg;
 LPCWSTR g_mainClassName = L"MyMainWindowClass";
+LPCWSTR g_scheduleClassName = L"MyScheduleWindowClass";
 HINSTANCE g_inst;
 char* days[] =
 {
@@ -71,6 +74,7 @@ LRESULT CALLBACK WinProc(HWND hwnd,UINT msg,WPARAM wp,LPARAM lp)
         break;
         case ID_BT_GENERATE:
             students.printStudents();
+            CreateScheduleWindow(hwnd);
             break;
         }
         break;
@@ -87,6 +91,68 @@ LRESULT CALLBACK WinProc(HWND hwnd,UINT msg,WPARAM wp,LPARAM lp)
         return DefWindowProc(hwnd,msg,wp,lp);
     }
     return 0;
+}
+LRESULT CALLBACK ScheduleProc(HWND hwnd,UINT msg,WPARAM wp,LPARAM lp)
+{
+    switch(msg)
+    {
+    case WM_COMMAND:
+        break;
+    case WM_CREATE:
+        break;
+    case WM_PAINT:
+            {
+           PAINTSTRUCT ps;
+                HDC hdc;
+                RECT rc;
+                hdc = BeginPaint(hwnd,&ps);
+                rc.left = 20;
+                rc.top = 20;
+                rc.right = 50;
+                rc.bottom = 50;
+                SetTextAlign(hdc,TA_CENTER);
+                SetTextColor(hdc,RGB(0,255,0));
+                FillRect(hdc,&rc,HBRUSH(CreateSolidBrush(RGB(200,0,0))));
+                if (Rectangle(hdc,100,100,200,200) == 0) MessageBox(hwnd,"fail ractengel","fail",MB_OK);
+                char* name = "hello";
+                TextOutA(hdc,250,30,name,5);
+                EndPaint(hwnd,&ps);
+        }
+        break;
+    case WM_CLOSE:
+        DestroyWindow(hwnd);
+        break;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+    default:
+        return DefWindowProc(hwnd,msg,wp,lp);
+    }
+    return 0;
+}
+
+VOID CreateScheduleWindow(HWND hWnd)
+{
+      WNDCLASSW wc5;
+    wc5.cbClsExtra = 0;
+    wc5.cbWndExtra = 0;
+    wc5.hbrBackground = HBRUSH(COLOR_WINDOW + 6);
+    wc5.hCursor = LoadCursor(NULL,IDC_ARROW);
+    wc5.hIcon = LoadIcon(NULL,IDI_APPLICATION);
+    wc5.hInstance = GetModuleHandle(NULL);
+    wc5.lpfnWndProc = ScheduleProc;
+    wc5.lpszClassName = g_scheduleClassName;
+    wc5.lpszMenuName = NULL;
+    wc5.style = 0;
+    RegisterClassW(&wc5);
+
+    g_hScheduleWnd = CreateWindowW(g_scheduleClassName,L"Schedule",WS_OVERLAPPEDWINDOW,CW_USEDEFAULT,CW_USEDEFAULT,400,248,hWnd,NULL,GetModuleHandle(NULL),NULL);
+    if (g_hScheduleWnd != NULL)
+    {
+        printf("Exist");
+        ShowWindow(g_hScheduleWnd,SW_SHOW);
+        UpdateWindow(g_hScheduleWnd);
+    }
 }
 
 VOID CreateMainWindow(HINSTANCE hInstance)
